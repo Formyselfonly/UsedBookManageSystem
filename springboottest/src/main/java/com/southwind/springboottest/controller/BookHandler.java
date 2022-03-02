@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/book")
+@CrossOrigin(origins = "*") //注解实现跨域,更方便 不过不是全局跨域,谁跨域谁注解,好处是特定性强
+//tips:之前用的Mybatis-plus,现在练习下用Jpa写接口,看看哪个更好用 反正远离都是差不多
 public class BookHandler {
     @Autowired
     private BookRepository bookRepository;

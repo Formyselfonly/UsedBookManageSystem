@@ -1,6 +1,7 @@
 package com.southwind.springboottest.entity;
 
 import lombok.Data;
+import org.springframework.data.annotation.Version;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,4 +16,10 @@ public class Book {
     private Integer id;
     private String name;
     private String owner;
+
+/*
+    @Version  //如果多线程,那么可以用这个实现乐观锁
+    private String version;
+*/
+
 }

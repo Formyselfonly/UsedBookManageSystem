@@ -1,3 +1,4 @@
+/*
 package com.southwind.springboottest.config;
 
 import org.springframework.context.annotation.Configuration;
@@ -17,3 +18,4 @@ public class CrosConfig implements WebMvcConfigurer {
                 .allowedHeaders("*");
     }
 }
+*/

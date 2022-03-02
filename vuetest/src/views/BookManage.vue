@@ -65,7 +65,7 @@ export default {
   data() {
     return {
       pageSize: '1',
-      total: '11',
+      total: '10',
       tableData: [{
         id: 1,
         name: '解忧杂货店',
