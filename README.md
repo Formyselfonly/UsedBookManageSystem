@@ -11,8 +11,15 @@
 
 ##  二 使用方法:
 
-1. 解压springboottest用idea打开,解压vuetest用vscode打开.在mysql中执行sql文件
-2. 配置自己想要的端口
+1. 在mysql中执行sql文件
+
+2. 解压springboottest用idea打开  yml中配置自己想要的端口
+
+3. 解压vuetest用vscode打开, npm install, npm run serve
+
+   
+
+   
 
 ## 欢迎使用!
 
