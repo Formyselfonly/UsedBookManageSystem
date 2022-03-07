@@ -1,31 +1,66 @@
 <template>
   <div>
-    <el-table :data="tableData" border style="width: 70%">
-      <el-table-column fixed prop="id" label="编号" width="150">
-      </el-table-column>
-      <el-table-column prop="name" label="图书名" width="120">
-      </el-table-column>
-      <el-table-column prop="owner" label="作者" width="120"> </el-table-column>
-      <el-table-column fixed="right" label="操作" width="100">
-        <template slot-scope="scope">
-          <el-button @click="edit(scope.row)" type="text" size="small"
-            >修改</el-button
-          >
-          <el-button @click="deleteBook(scope.row)" type="text" size="small"
-            >删除</el-button
-          >
-        </template>
-      </el-table-column>
-    </el-table>
+    <el-container style="height: 500px; border: 1px solid #eee">
 
-    <el-pagination
-      background
-      layout="prev, pager, next"
-      :page-size="pageSize"
-      :total="total"
-      @current-change="page"
-    >
-    </el-pagination>
+      <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+
+        <el-menu router :default-openeds="['0', '1']">
+          <el-submenu v-for="(item,index) in $router.options.routes" :index="index+''" v-if="item.show">
+            <template slot="title">{{item.name}}</template>
+            <el-menu-item v-for="(item2,index2) in item.children" :index="item2.path"
+                          :class="$route.path==item2.path?'is-active':''">{{item2.name}}</el-menu-item>
+          </el-submenu>
+        </el-menu>
+
+      </el-aside>
+
+      <!--这个功能待实现 如果实现不了,就把下面的el-container块改为
+                         <el-main><router-view></router-view></el-main>
+      -->
+      <el-container>
+        <el-header style="text-align: right; font-size: 12px">
+          <el-dropdown>
+            <i class="el-icon-setting" style="margin-right: 15px"></i>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item> <a href="http://localhost:8080/login">登录/注销</a></el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <span>王小虎</span>
+        </el-header>
+
+        <el-main>
+
+          <el-table :data="tableData" border style="width: 70%">
+            <el-table-column fixed prop="id" label="编号" width="150">
+            </el-table-column>
+            <el-table-column prop="name" label="图书名" width="120">
+            </el-table-column>
+            <el-table-column prop="owner" label="作者" width="120"> </el-table-column>
+            <el-table-column fixed="right" label="操作" width="100">
+              <template slot-scope="scope">
+                <el-button @click="edit(scope.row)" type="text" size="small"
+                >修改</el-button
+                >
+                <el-button @click="deleteBook(scope.row)" type="text" size="small"
+                >删除</el-button
+                >
+              </template>
+            </el-table-column>
+          </el-table>
+
+          <el-pagination
+                  background
+                  layout="prev, pager, next"
+                  :page-size="pageSize"
+                  :total="total"
+                  @current-change="page"
+          >
+          </el-pagination>
+        </el-main>
+      </el-container>
+    </el-container>
+
+
   </div>
 </template>
 
@@ -34,14 +69,26 @@ export default {
   methods: {
     deleteBook(row) {
       const _this = this
-      axios.delete('http://localhost:8181/book/deleteById/' + row.id).then(function (resp) {
-        _this.$alert('《' + row.name + '》删除成功！', '消息', {
-          confirmButtonText: '确定',
-          callback: action => {
-            window.location.reload()
-          }
+        this.$confirm('检测到未保存的内容，是否在离开页面前保存修改？', '确认信息', {
+            distinguishCancelAndClose: true,
+            confirmButtonText: '保存',
+            cancelButtonText: '放弃修改'
         })
-      })
+            .then(() =>{
+                axios.delete('http://localhost:8181/book/deleteById/' + row.id).then(function (resp) {
+                    _this.$alert('《' + row.name + '》删除成功！', '消息', {
+                        confirmButtonText: '确定',
+                        callback: action => {
+                            window.location.reload()
+                        }
+                    })
+                })
+
+            })
+
+
+
+
     },
     edit(row) {
       this.$router.push({
